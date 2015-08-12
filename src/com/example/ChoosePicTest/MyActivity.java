@@ -33,9 +33,9 @@ public class MyActivity extends Activity {
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //´´½¨File¶ÔÏó£¬ÓÃÓÚ´æ´¢ÅÄÕÕºóµÄÍ¼Æ¬
-                //getExernalStorageDirectory·½·¨»ñÈ¡ÊÖ»úSD¿¨µÄ¸ùÄ¿Â¼
-                //tempIage.jpgÍ¼Æ¬Ãû×Ö
+                //åˆ›å»ºFileå¯¹è±¡ï¼Œç”¨äºå­˜å‚¨æ‹ç…§åçš„å›¾ç‰‡
+                //getExernalStorageDirectoryæ–¹æ³•è·å–æ‰‹æœºSDå¡çš„æ ¹ç›®å½•
+                //tempIage.jpgå›¾ç‰‡åå­—
                 File outputImage = new File(Environment.getExternalStorageDirectory(),"tempIage.jpg");
                 try{
                     if(outputImage.exists()){
@@ -45,14 +45,14 @@ public class MyActivity extends Activity {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                //½«File¶ÔÏó×ª»»³ÉUri¶ÔÏó
-                //Uri¶ÔÏó±êÊ¶×ÅÍ¼Æ¬µÄÎ¨Ò»µØÖ·
+                //å°†Fileå¯¹è±¡è½¬æ¢æˆUriå¯¹è±¡
+                //Uriå¯¹è±¡æ ‡è¯†ç€å›¾ç‰‡çš„å”¯ä¸€åœ°å€
                 imageUri = Uri.fromFile(outputImage);
 
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-                //Æô¶¯Ïà»ú³ÌĞò
+                //å¯åŠ¨ç›¸æœºç¨‹åº
                 startActivityForResult(intent,TAKE_PHOTO);
             }
         });
@@ -61,20 +61,20 @@ public class MyActivity extends Activity {
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
         switch (requestCode){
             case TAKE_PHOTO:
-            if (requestCode == RESULT_OK) {
-                Intent intent = new Intent("com.android.camera.action.CROP");
-                intent.setDataAndType(imageUri,"image/*");
-                intent.putExtra("scale", true);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-                //Æô¶¯¼ô²Ã³ÌĞò
-                startActivityForResult(intent,CROP_PHOTO);
-            }
-            break;
+                if (requestCode == RESULT_OK) {
+                    Intent intent = new Intent("com.android.camera.action.CROP");
+                    intent.setDataAndType(imageUri,"image/*");
+                    intent.putExtra("scale", true);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                    //å¯åŠ¨å‰ªè£ç¨‹åº
+                    startActivityForResult(intent,CROP_PHOTO);
+                }
+                break;
             case CROP_PHOTO:
                 if (resultCode == RESULT_OK){
                     try{
                         Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                       //½«²Ã¼ôºóµÄÕÕÆ¬ÏÔÊ¾³öÀ´
+                        //å°†è£å‰ªåçš„ç…§ç‰‡æ˜¾ç¤ºå‡ºæ¥
                         picture.setImageBitmap(bitmap);
                     }catch (Exception e){
                         e.printStackTrace();
